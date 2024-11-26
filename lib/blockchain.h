@@ -1,15 +1,18 @@
 #include "block.h"
 
 #include <string>
+#include <vector>
 
-class BlockChain{
+class BlockChain
+{
     public:
-    BlockChain();
-    ~BlockChain();
-    void addBlock(Block * block);
-    void printChain();
+        BlockChain();
+        ~BlockChain();
+        void addBlock(Block * block);
+        void printChain();
+        
     private:
-    std::vector<Block*> chain;
-    Block* getLastBlock();
-    std::string getTimeStamp();
+        std::vector<Block*> chain;
+        Block* getLastBlock();
+        std::string getTimeStamp();
 };

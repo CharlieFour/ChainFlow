@@ -6,6 +6,6 @@ struct Block
     std::string hash;
     std::string previousHash;
     double amount;
-    std::string timestamp; //chorono
+    std::string timestamp; //chrono
     std::string signature;
 };

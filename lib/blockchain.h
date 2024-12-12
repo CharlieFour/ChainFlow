@@ -2,6 +2,7 @@
 #include "block.h"
 
 #include <string>
+#include <list>
 #include <vector>
 
 class BlockChain
@@ -13,7 +14,7 @@ class BlockChain
         void printChain();
         
     private:
-        std::vector<Block*> chain;
+        std::list<Block*> chain;
         Block* getLastBlock();
         std::string getTimeStamp();
 };

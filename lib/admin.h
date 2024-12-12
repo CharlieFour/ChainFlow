@@ -1,11 +1,15 @@
 #pragma once
 
 #include <string>
+#include <template.h>
 class Admin
 {
     private:
-        std::string userName;
-        std::string password;
-
-    
+        Template info;
+    public:
+        Admin();
+        ~Admin();
+        void addCoin();
+        void removeCoin();
+        void burnCoin();
 };

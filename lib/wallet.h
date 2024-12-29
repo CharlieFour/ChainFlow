@@ -3,7 +3,6 @@
 #include <string>
 #include <unordered_map>
 #include "coin.h"
-#include "chainFlow.h"
 
 class Wallet
 {

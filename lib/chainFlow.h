@@ -20,18 +20,3 @@ class ChainFlow
 };
 
 #endif
-
-
-
-/*std::string getCurrentTime()
-{
-    auto now = std::chrono::system_clock::now();
-    std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
-    auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) % 1000;
-
-    std::ostringstream oss;
-    oss << std::put_time(std::localtime(&currentTime), "%Y-%m-%d %H:%M:%S")
-        << '.' << std::setfill('0') << std::setw(3) << milliseconds.count();
-
-    return oss.str();
-}*/

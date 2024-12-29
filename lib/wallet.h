@@ -1,9 +1,9 @@
 #pragma once
 
 #include <string>
-#include <vector>
 #include <unordered_map>
 #include "coin.h"
+#include "chainFlow.h"
 
 class Wallet
 {
@@ -23,7 +23,7 @@ public:
     double getBalance() const;
 
     void addCoin(const Coin& coin, double amount);
-    void transferCoin(const std::string& toAddress, const std::string& signature, double amount);
+    bool transferCoin(const std::string& toAddress, const std::string& signature, double amount);
     void receiveCoin(const std::string& signature, double amount);
 
     void printPortfolio() const;

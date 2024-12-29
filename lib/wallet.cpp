@@ -1,7 +1,21 @@
 #include "wallet.h"
 #include <iostream>
 #include <iomanip>
+#include <chrono>
+#include <ctime>
 
+std::string getCurrentTime()
+{
+    auto now = std::chrono::system_clock::now();
+    std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+    auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) % 1000;
+
+    std::ostringstream oss;
+    oss << std::put_time(std::localtime(&currentTime), "%Y-%m-%d %H:%M:%S")
+        << '.' << std::setfill('0') << std::setw(3) << milliseconds.count();
+
+    return oss.str();
+}
 Wallet::Wallet() : USDT(0) {}
 
 Wallet::~Wallet() {}
@@ -39,22 +53,22 @@ void Wallet::addCoin(const Coin& coin, double amount)
     std::cout << amount << " " << coin.signature << " added to wallet.\n";
 }
 
-void Wallet::transferCoin(const std::string& toAddress, const std::string& signature, double amount)
+bool Wallet::transferCoin(const std::string& toAddress, const std::string& signature, double amount)
 {
     if (coinList[signature] < amount)
     {
         std::cout << "Insufficient " << signature << " balance for transfer.\n";
-        return;
+        return false;
     }
-
     coinList[signature] -= amount;
-    std::cout << amount << " " << signature << " transferred to " << toAddress << "\n";
+    return true;
 }
 
 void Wallet::receiveCoin(const std::string& signature, double amount)
 {
     coinList[signature] += amount;
     std::cout << amount << " " << signature << " received.\n";
+    std::string timestamp = getCurrentTime();
 }
 
 void Wallet::printPortfolio() const

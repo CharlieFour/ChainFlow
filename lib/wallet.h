@@ -2,24 +2,29 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
+#include "coin.h"
 
 class Wallet
 {
-    private:
-        double USDT = 0;	
-        std::string address;
-        std::vector<std::pair<std::string, int>> coinList; 
-        std::vector<Wallet> walletList; // this is wrong way, im just checking wallet...
-    public:
-        Wallet();
-        ~Wallet();
-        void setAddress(std::string address);
-        std::string getAddress();
-        void topupBalance();
-        void printCoins();
-        void printBalance();
-        void transferCoin(std::string address, std::string signature, int amount);
-        void receiveCoin();
-        void printTransactions();
-        void printTransactionHistory();
+private:
+    double USDT; // Balance in USDT
+    std::string address;
+    std::unordered_map<std::string, double> coinList; // Coin signature and balance
+
+public:
+    Wallet();
+    ~Wallet();
+
+    void setAddress(const std::string& address);
+    std::string getAddress() const;
+
+    void topupBalance(double amount);
+    double getBalance() const;
+
+    void addCoin(const Coin& coin, double amount);
+    void transferCoin(const std::string& toAddress, const std::string& signature, double amount);
+    void receiveCoin(const std::string& signature, double amount);
+
+    void printPortfolio() const;
 };

@@ -1,11 +1,10 @@
 #pragma once
-// abhey rafay, hum blockchain bana rahien hai, coin market nhi :)
 #include <string>
 struct Coin
 {
     public:
-        std::string signature;
-        double maxSupply;
-        double circulatingSupply;
-        double availableSupply;
+        std::string signature; // like BNB, Bitcoin(BTC)
+        double maxSupply; // 21000000
+        double circulatingSupply; // 21000000	
+        double availableSupply; // 21000000
 };

@@ -1,83 +1,67 @@
-#include <wallet.h>
+#include "wallet.h"
 #include <iostream>
+#include <iomanip>
 
-Wallet::Wallet()
-{
-    
-}
+Wallet::Wallet() : USDT(0) {}
 
-Wallet::~Wallet()
-{
+Wallet::~Wallet() {}
 
-}
-
-void Wallet::setAddress(std::string address)
+void Wallet::setAddress(const std::string& address)
 {
     this->address = address;
 }
 
-std::string Wallet::getAddress()
+std::string Wallet::getAddress() const
 {
-    return this->address;
+    return address;
 }
 
-void Wallet::topupBalance()
+void Wallet::topupBalance(double amount)
 {
-    //user can topup balance by sending coins to his wallet address
+    USDT += amount;
+    std::cout << "Balance topped up. Current USDT: " << USDT << "\n";
 }
 
-void Wallet::printCoins()
+double Wallet::getBalance() const
 {
-    //print all the coins available in the wallet
-    for(auto& coin : coinList)
+    return USDT;
+}
+
+void Wallet::addCoin(const Coin& coin, double amount)
+{
+    if (amount > coin.availableSupply)
     {
-        std::cout << coin.first << " : " << coin.second << std::endl;
+        std::cout << "Insufficient available supply of " << coin.signature << "\n";
+        return;
     }
+
+    coinList[coin.signature] += amount;
+    std::cout << amount << " " << coin.signature << " added to wallet.\n";
 }
 
-void Wallet::printBalance()
+void Wallet::transferCoin(const std::string& toAddress, const std::string& signature, double amount)
 {
-    std::cout << "USDT: " << USDT << std::endl;
-}
-
-void Wallet::transferCoin(std::string address, std::string signature, int amount)
-{
-    //user can transfer coins to another user
-    for(auto& wallet : walletList)
+    if (coinList[signature] < amount)
     {
-        if(wallet.getAddress() == address)
-        {
-            for(auto& coin : coinList)
-            {
-                if(coin.first == signature)
-                {
-                    if(coin.second >= amount)
-                    {
-                        coin.second -= amount;
-                        wallet.coinList.push_back(std::make_pair(signature, amount));
-                        break;
-                    }
-                    else
-                    {
-                        std::cout << "Insufficient balance" << std::endl;
-                    }
-                }
-            }
-        }
+        std::cout << "Insufficient " << signature << " balance for transfer.\n";
+        return;
     }
+
+    coinList[signature] -= amount;
+    std::cout << amount << " " << signature << " transferred to " << toAddress << "\n";
 }
 
-void Wallet::receiveCoin()
+void Wallet::receiveCoin(const std::string& signature, double amount)
 {
-    //user can receive coins from other users
+    coinList[signature] += amount;
+    std::cout << amount << " " << signature << " received.\n";
 }
 
-void Wallet::printTransactions()
+void Wallet::printPortfolio() const
 {
-    //print all the transactions of the user
-}
-
-void Wallet::printTransactionHistory()
-{
-    //print the transaction history of the user
+    std::cout << "Wallet Portfolio:\n";
+    for (const auto& coin : coinList)
+    {
+        std::cout << "- " << coin.first << ": " << std::fixed << std::setprecision(2) << coin.second << "\n";
+    }
 }
